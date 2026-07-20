@@ -64,7 +64,7 @@
             align-items: center;
             flex-direction: column;
             z-index: 3;
-            padding: 15px;
+            padding: 10px;
         }
 
         /* Главный экран загрузки */
@@ -82,12 +82,12 @@
             box-shadow: 0 12px 30px rgba(255, 105, 180, 0.2);
             z-index: 10;
             transition: opacity 0.5s ease, transform 0.5s ease;
-            width: 250px;
+            width: 230px;
         }
         .circular-loader {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -112,7 +112,7 @@
             stroke-dashoffset: 345.57;
         }
         .loader-cake-icon {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             animation: cakePulse 1.2s ease-in-out infinite;
         }
         @keyframes cakePulse {
@@ -121,7 +121,7 @@
         }
         .loader-text {
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-top: 15px;
             letter-spacing: 1.5px;
@@ -166,7 +166,7 @@
             position: absolute;
             width: 85%;
             max-width: 400px;
-            min-height: 140px;
+            min-height: 120px;
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -182,7 +182,7 @@
             align-items: center;
         }
         #congrats-title {
-            font-size: 2.1rem; 
+            font-size: 2rem; 
             font-weight: 900;
             text-align: center;
             text-transform: uppercase;
@@ -199,7 +199,7 @@
         /* Промежуточный стикер */
         #final-simple-text {
             display: none;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: #ffffff;
             text-align: center;
@@ -218,7 +218,7 @@
             transition: all 1s ease;
         }
         #final-sticker-wrapper img {
-            max-width: 130px;
+            max-width: 110px;
             height: auto;
         }
 
@@ -234,35 +234,36 @@
             z-index: 8; 
             opacity: 0;
             transition: opacity 1s ease;
-            perspective: 1200px;
+            perspective: 1500px;
             padding: 10px;
         }
         
         #top-message-box {
-            width: 92%;
-            max-width: 440px;
+            width: 90%;
+            max-width: 400px;
             background: rgba(255, 255, 255, 0.96);
             border-left: 4px solid #d4af37;
-            border-radius: 15px;
-            padding: 12px 16px;
+            border-radius: 12px;
+            padding: 12px 14px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 25px;
             opacity: 0;
             transform: translateY(-15px);
             transition: all 0.6s ease;
         }
         #top-message-box p {
             color: #1c1c1e;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             line-height: 1.4;
         }
         
+        /* КНИГА */
         .book {
             position: relative;
-            width: 210px;
-            height: 280px;
+            width: 260px;  /* Базовый размер под десктоп */
+            height: 340px;
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             transform-style: preserve-3d;
             cursor: pointer;
@@ -319,7 +320,7 @@
             border-color: #d4af37;
         }
         .cover h1 {
-            font-size: 16px;
+            font-size: 15px;
             border: 1.5px solid #d4af37;
             padding: 10px;
             letter-spacing: 1.5px;
@@ -349,13 +350,30 @@
             100% { border-color: #ffdf7a; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 18px rgba(255, 223, 122, 0.35); }
         }
 
-        @media screen and (min-width: 600px) {
+        /* АДАПТИВ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ */
+        @media screen and (max-width: 600px) {
             .book {
-                width: 230px;
-                height: 310px;
+                width: 175px;  /* Уменьшаем ширину книги, чтобы она помещалась на узком экране при раскрытии */
+                height: 245px; /* Сохраняем пропорции */
+            }
+            #top-message-box {
+                width: 95%;
+                margin-bottom: 15px;
+                padding: 10px;
             }
             #top-message-box p {
-                font-size: 0.95rem;
+                font-size: 0.78rem;
+            }
+            .cover h1 {
+                font-size: 12px;
+                padding: 6px;
+            }
+            .caption {
+                font-size: 0.65rem;
+            }
+            #loader-container {
+                width: 200px;
+                padding: 15px;
             }
         }
     </style>
@@ -410,7 +428,7 @@
                 <div class="page" id="p1" style="z-index: 9;">
                     <div class="front cover">
                         <h1>Галерея Моментов</h1>
-                        <p style="margin-top: 12px; font-size: 0.75rem; color: #fff; opacity: 0.6; letter-spacing: 1px;">Нажми, чтобы открыть</p>
+                        <p style="margin-top: 12px; font-size: 0.7rem; color: #fff; opacity: 0.6; letter-spacing: 1px;">Нажми, чтобы открыть</p>
                     </div>
                     <div class="back">
                         <img class="painting" src="img/1.jpeg" alt="Картина 1">
@@ -894,10 +912,15 @@
 
             function updateUI() {
                 if (window.innerWidth < 600) {
-                    book.style.transform = "translateX(0px)";
+                    // На мобильных при раскрытии смещаем книгу чуть правее, чтобы левая страница не улетала за экран
+                    if (currentPageIndex > 0) {
+                        book.style.transform = "translateX(80px)";
+                    } else {
+                        book.style.transform = "translateX(0px)";
+                    }
                 } else {
                     if (currentPageIndex > 0) {
-                        book.style.transform = "translateX(105px)";
+                        book.style.transform = "translateX(130px)";
                     } else {
                         book.style.transform = "translateX(0px)";
                     }
