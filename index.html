@@ -1,471 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Специально для Жансаи ✨</title>
-    <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-            -webkit-touch-callout: none;               
-            -webkit-user-select: none;                 
-            -moz-user-select: none;                    
-            user-select: none;                         
-            outline: none; 
-        }
-        body, html { 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
-            background-color: #08010f; 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Фоновые слои */
-        #sky-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: url('img/Gemini_Generated_Image_1mafej1mafej1maf.png'); 
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-            transition: opacity 1.5s ease;
-        }
-
-        #final-bg-stars {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 55%, rgba(255, 105, 180, 0.15) 0%, rgba(138, 43, 226, 0.08) 40%, #05000a 100%);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 2s ease;
-            pointer-events: none;
-        }
-
-        canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 3;
-            padding: 15px;
-        }
-
-        /* Главный экран загрузки */
-        #loader-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 182, 193, 0.12); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.2);
-            z-index: 10;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            width: 250px;
-        }
-        .circular-loader {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .circular-loader svg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            transform: rotate(-90deg);
-        }
-        .circular-loader circle {
-            fill: none;
-            stroke-width: 6;
-            stroke-linecap: round;
-        }
-        .circular-loader .bg-track {
-            stroke: rgba(255, 255, 255, 0.1);
-        }
-        .circular-loader .progress-fill-circle {
-            stroke: url(#loader-grad);
-            stroke-dasharray: 345.57; 
-            stroke-dashoffset: 345.57;
-        }
-        .loader-cake-icon {
-            font-size: 2.8rem;
-            animation: cakePulse 1.2s ease-in-out infinite;
-        }
-        @keyframes cakePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .loader-text {
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-top: 15px;
-            letter-spacing: 1.5px;
-            text-align: center;
-        }
-
-        /* КНОПКА СТАРТА */
-        #hint-hand-wrapper {
-            display: none;
-            position: absolute;
-            z-index: 15;
-            text-align: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .aesthetic-btn {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 14px 32px;
-            border-radius: 50px;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.2);
-            animation: btnPulse 2.5s infinite ease-in-out;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        @keyframes btnPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.15), 0 0 30px rgba(255, 20, 147, 0.15); }
-            50% { transform: scale(1.04); box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), 0 0 40px rgba(157, 0, 255, 0.35); border-color: rgba(255, 255, 255, 0.7); }
-        }
-
-        /* Текстовое облако */
-        #text-cloud-container {
-            display: none;
-            position: absolute;
-            width: 85%;
-            max-width: 400px;
-            min-height: 140px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            z-index: 5;
-            opacity: 0;
-            transform: scale(0.85);
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            padding: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-        #congrats-title {
-            font-size: 2.1rem; 
-            font-weight: 900;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            opacity: 0;
-            transform: scale(0.75); 
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .show-wow-text {
-            opacity: 1 !important;
-            transform: scale(1) !important; 
-        }
-
-        /* Промежуточный стикер */
-        #final-simple-text {
-            display: none;
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #ffffff;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            z-index: 6;
-            opacity: 0;
-            text-shadow: 0 0 12px rgba(255,255,255,0.5);
-            transition: all 1s ease;
-        }
-        #final-sticker-wrapper {
-            display: none;
-            z-index: 6;
-            opacity: 0;
-            margin-top: 15px;
-            transition: all 1s ease;
-        }
-        #final-sticker-wrapper img {
-            max-width: 130px;
-            height: auto;
-        }
-
-        /* Финальная сцена */
-        #final-scene-container {
-            display: none;
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; 
-            z-index: 8; 
-            opacity: 0;
-            transition: opacity 1s ease;
-            perspective: 1200px;
-            padding: 10px;
-        }
-        
-        #top-message-box {
-            width: 92%;
-            max-width: 440px;
-            background: rgba(255, 255, 255, 0.96);
-            border-left: 4px solid #d4af37;
-            border-radius: 15px;
-            padding: 12px 16px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(-15px);
-            transition: all 0.6s ease;
-        }
-        #top-message-box p {
-            color: #1c1c1e;
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        
-        .book {
-            position: relative;
-            width: 210px;
-            height: 280px;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-        .page {
-            position: absolute;
-            width: 100%; height: 100%; top: 0; left: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s step-end;
-        }
-        .front, .back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 12px;
-            background: #fafafa;
-            border: 1.5px solid #d4af37;
-            box-shadow: inset 2px 0 10px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.35);
-            border-radius: 0 10px 10px 0;
-            animation: goldGlowEffect 4s ease-in-out infinite alternate;
-        }
-        .back {
-            transform: rotateY(180deg);
-            border-radius: 10px 0 0 10px;
-        }
-        .painting {
-            width: 100%; height: 84%;
-            object-fit: contain;
-            background-color: #0d0d0f;
-            border: 3px solid #fff;
-            border-radius: 4px;
-        }
-        .caption {
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: #555;
-            letter-spacing: 0.3px;
-        }
-        .page.flipped {
-            transform: rotateY(-180deg);
-        }
-        .cover {
-            background: linear-gradient(135deg, #24021a 0%, #0d0009 100%) !important;
-            color: #d4af37;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-color: #d4af37;
-        }
-        .cover h1 {
-            font-size: 16px;
-            border: 1.5px solid #d4af37;
-            padding: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-        
-        .final-page-text {
-            background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.2rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-        .final-page-subtext {
-            color: #ffffff;
-            font-size: 0.8rem;
-            font-weight: 600;
-            opacity: 0.85;
-            text-align: center;
-        }
-
-        @keyframes goldGlowEffect {
-            0% { border-color: #d4af37; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 10px rgba(212, 175, 55, 0.2); }
-            100% { border-color: #ffdf7a; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 18px rgba(255, 223, 122, 0.35); }
-        }
-
-        @media screen and (min-width: 600px) {
-            .book {
-                width: 230px;
-                height: 310px;
-            }
-            #top-message-box p {
-                font-size: 0.95rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <audio id="bgAudio" src="bg-music.mp3" loop></audio>
-
-    <div id="sky-bg"></div>
-    <div id="final-bg-stars"></div>
-
-    <canvas id="partyCanvas"></canvas>
-
-    <div class="container" id="main-container">
-        
-        <div id="loader-container">
-            <div class="circular-loader">
-                <svg>
-                    <defs>
-                        <linearGradient id="loader-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#d4af37" />
-                            <stop offset="100%" stop-color="#ff007f" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="bg-track" cx="60" cy="60" r="55"></circle>
-                    <circle class="progress-fill-circle" id="progress" cx="60" cy="60" r="55"></circle>
-                </svg>
-                <div class="loader-cake-icon">🎂</div>
-            </div>
-            <div class="loader-text" id="loader-status">Подготовка... 0%</div>
-        </div>
-
-        <div id="hint-hand-wrapper" onclick="startWowEffect()">
-            <button class="aesthetic-btn">Открыть поздравление</button>
-        </div>
-
-        <div id="text-cloud-container">
-            <h1 id="congrats-title"></h1>
-        </div>
-
-        <h1 id="final-simple-text">Специально для тебя!</h1>
-        <div id="final-sticker-wrapper">
-            <img src="img/happy-birthday.gif" alt="Wow Sticker">
-        </div>
-
-        <div id="final-scene-container">
-            <div id="top-message-box">
-                <p id="slide-text">Жансая, с днем рождения! Пусть этот день станет началом твоего самого яркого, вдохновляющего и счастливого года ✨</p>
-            </div>
-
-            <div class="book" id="book">
-                <div class="page" id="p1" style="z-index: 9;">
-                    <div class="front cover">
-                        <h1>Галерея Моментов</h1>
-                        <p style="margin-top: 12px; font-size: 0.75rem; color: #fff; opacity: 0.6; letter-spacing: 1px;">Нажми, чтобы открыть</p>
-                    </div>
-                    <div class="back">
-                        <img class="painting" src="img/1.jpeg" alt="Картина 1">
-                        <div class="caption">Прекрасные мгновения</div>
-                    </div>
-                </div>
-
-                <div class="page" id="p2" style="z-index: 8;">
-                    <div class="front">
-                        <img class="painting" src="img/6.jpeg" alt="Картина 2">
-                        <div class="caption">Светлая улыбка</div>
-                    </div>
-                    <div class="back">
-                        <img class="painting" src="img/3.jpeg" alt="Картина 3">
-                        <div class="caption">Радость каждого дня</div>
-                    </div>
-                </div>
-
-                <div class="page" id="p3" style="z-index: 7;">
-                    <div class="front">
-                        <img class="painting" src="img/4.jpeg" alt="Картина 4">
-                        <div class="caption">Искренние эмоции</div>
-                    </div>
-                    <div class="back">
-                        <img class="painting" src="img/5.jpeg" alt="Картина 5">
-                        <div class="caption">Чудесные моменты</div>
-                    </div>
-                </div>
-
-                <div class="page" id="p4" style="z-index: 6;">
-                    <div class="front">
-                        <img class="painting" src="img/2.jpeg" alt="Картина 6">
-                        <div class="caption">Память в кадрах</div>
-                    </div>
-                    <div class="back">
-                        <img class="painting" src="img/7.jpeg" alt="Картина 7">
-                        <div class="caption">Самые лучшие дни</div>
-                    </div>
-                </div>
-
-                <div class="page" id="p5" style="z-index: 5;">
-                    <div class="front">
-                        <img class="painting" src="img/8.jpeg" alt="Картина 8">
-                        <div class="caption">Вдохновение вокруг</div>
-                    </div>
-                    <div class="back cover">
-                        <div class="final-page-text">С праздником! ✨</div>
-                        <div class="final-page-subtext">Самые искренние пожелания</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         const canvas = document.getElementById('partyCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -548,23 +81,32 @@
         ];
         let loadedCount = 0;
         const totalAssets = assetsToLoad.length;
+        let realAssetsLoaded = false; // Флаг реальной загрузки файлов
 
         const progressCircle = document.getElementById('progress');
         const loaderContainer = document.getElementById('loader-container');
         const handWrapper = document.getElementById('hint-hand-wrapper');
         const loaderStatus = document.getElementById('loader-status');
 
-        function assetLoaded() {
-            loadedCount++;
-            let percent = Math.floor((loadedCount / totalAssets) * 100);
-            if (percent > 100) percent = 100;
+        // Функция для плавной анимации процентов
+        let currentPercent = 0;
+        function fakeProgressAnimation() {
+            // Если файлы еще качаются, плавно идем до 85%, если уже скачались — идем до 100%
+            let targetPercent = realAssetsLoaded ? 100 : 85;
 
-            const radius = 55;
-            const circumference = 2 * Math.PI * radius;
-            progressCircle.style.strokeDashoffset = circumference - (percent / 100) * circumference;
-            loaderStatus.textContent = `Загрузка... ${percent}%`;
+            if (currentPercent < targetPercent) {
+                currentPercent += 1.5; // Скорость заполнения (чем меньше шаг, тем медленнее)
+                if (currentPercent > targetPercent) currentPercent = targetPercent;
 
-            if (loadedCount >= totalAssets) {
+                let displayPercent = Math.floor(currentPercent);
+                const radius = 55;
+                const circumference = 2 * Math.PI * radius;
+                progressCircle.style.strokeDashoffset = circumference - (displayPercent / 100) * circumference;
+                loaderStatus.textContent = `Загрузка... ${displayPercent}%`;
+            }
+
+            if (currentPercent >= 100) {
+                // Когда доползло до 100%, плавно скрываем лоадер и показываем кнопку
                 setTimeout(() => {
                     loaderContainer.style.opacity = '0';
                     loaderContainer.style.transform = 'scale(0.9)';
@@ -573,9 +115,21 @@
                         handWrapper.style.display = 'block';
                         setTimeout(() => handWrapper.style.opacity = '1', 50);
                     }, 500);
-                }, 500);
+                }, 400);
+            } else {
+                requestAnimationFrame(fakeProgressAnimation);
             }
         }
+
+        function assetLoaded() {
+            loadedCount++;
+            if (loadedCount >= totalAssets) {
+                realAssetsLoaded = true; // Все файлы на месте, разрешаем доползти до 100%
+            }
+        }
+
+        // Запуск плавной анимации процентов
+        requestAnimationFrame(fakeProgressAnimation);
 
         assetsToLoad.forEach(src => {
             if (src.endsWith('.mp3')) {
@@ -876,11 +430,9 @@
             }
 
             function updateUI() {
-                // Если экран мобильный (ширина меньше 600px), альбом ВСЕГДА строго по центру
                 if (window.innerWidth < 600) {
                     book.style.transform = "translateX(0px)";
                 } else {
-                    // На больших экранах смещаем, только когда книга открыта
                     if (currentPageIndex > 0) {
                         book.style.transform = "translateX(105px)";
                     } else {
@@ -925,5 +477,3 @@
 
         requestAnimationFrame(animate);
     </script>
-</body>
-</html>
