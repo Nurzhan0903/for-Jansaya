@@ -12,9 +12,7 @@
             -webkit-tap-highlight-color: transparent; 
             -webkit-touch-callout: none;               
             -webkit-user-select: none;                 
-            -khtml-user-select: none;                  
             -moz-user-select: none;                    
-            -ms-user-select: none;                     
             user-select: none;                         
             outline: none; 
         }
@@ -22,16 +20,12 @@
             width: 100%; 
             height: 100%; 
             overflow: hidden; 
-            background-color: #000000; 
+            background-color: #08010f; 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
 
-        /* Подсказка о перевороте экрана */
+        /* Подсказка о перевороте экрана с плавным исчезновением */
         #orientation-warning {
             display: none;
             position: fixed;
@@ -44,34 +38,36 @@
             color: #ffffff;
             text-align: center;
             padding: 20px;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
         }
         .phone-icon {
-            font-size: 4rem;
+            font-size: 3.5rem;
             margin-bottom: 20px;
-            animation: rotatePhone 2s infinite ease-in-out;
+            animation: rotatePhone 2.3s infinite ease-in-out;
         }
         .warning-text {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             letter-spacing: 1px;
             line-height: 1.5;
-            max-width: 280px;
+            max-width: 290px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         @keyframes rotatePhone {
             0% { transform: rotate(0deg); }
-            50% { transform: rotate(-90deg); }
+            40% { transform: rotate(-90deg); }
+            60% { transform: rotate(-90deg); }
             100% { transform: rotate(0deg); }
         }
 
-        /* Показывать предупреждение только на мобильных в портретной ориентации */
-        @media screen and (max-width: 900px) and (orientation: portrait) {
+        /* Показывать предупреждение только в портретной ориентации */
+        @media screen and (max-width: 950px) and (orientation: portrait) {
             #orientation-warning {
                 display: flex;
             }
         }
 
-        /* 1) Ночной фон (Сакура) */
+        /* Фоновые слои */
         #sky-bg {
             position: absolute;
             top: 0; left: 0;
@@ -83,24 +79,12 @@
             transition: opacity 1.5s ease;
         }
 
-        /* 2) Фон для текста (Мягкий градиент) */
-        #main-bg-gradient {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #fee1e8 0%, #faaca8 100%);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 1.5s ease;
-            pointer-events: none;
-        }
-
-        /* 3) Финальный фон (Альбом) */
+        /* Мягкая неоновая подсветка за книгой в финале */
         #final-bg-stars {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a0022 0%, #080012 60%, #010003 100%);
+            background: radial-gradient(circle at 50% 55%, rgba(255, 105, 180, 0.15) 0%, rgba(138, 43, 226, 0.08) 40%, #05000a 100%);
             z-index: 1;
             opacity: 0;
             transition: opacity 2s ease;
@@ -123,7 +107,7 @@
             align-items: center;
             flex-direction: column;
             z-index: 3;
-            padding: 20px;
+            padding: 15px;
         }
 
         /* Главный экран загрузки */
@@ -132,21 +116,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 182, 193, 0.15); 
+            background: rgba(255, 182, 193, 0.12); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.25);
-            padding: 30px 25px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3), inset 0 0 15px rgba(255,255,255,0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.2);
             z-index: 10;
             transition: opacity 0.6s ease, transform 0.6s ease;
-            width: 280px;
+            width: 250px;
         }
         .circular-loader {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,32 +143,31 @@
         }
         .circular-loader circle {
             fill: none;
-            stroke-width: 8;
+            stroke-width: 6;
             stroke-linecap: round;
         }
         .circular-loader .bg-track {
-            stroke: rgba(255, 255, 255, 0.15);
+            stroke: rgba(255, 255, 255, 0.1);
         }
         .circular-loader .progress-fill-circle {
             stroke: url(#loader-grad);
-            stroke-dasharray: 439.82; 
-            stroke-dashoffset: 439.82;
-            transition: stroke-dashoffset 0.15s linear;
+            stroke-dasharray: 345.57; 
+            stroke-dashoffset: 345.57;
         }
         .loader-cake-icon {
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             animation: cakePulse 1.2s ease-in-out infinite;
         }
         @keyframes cakePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.12); }
+            50% { transform: scale(1.1); }
         }
         .loader-text {
             color: #fff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 20px;
-            letter-spacing: 2px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 15px;
+            letter-spacing: 1.5px;
             text-align: center;
         }
 
@@ -196,97 +179,94 @@
             text-align: center;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
         }
         .aesthetic-btn {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 16px 38px;
+            padding: 14px 32px;
             border-radius: 50px;
             color: #ffffff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            box-shadow: 0 8px 32px rgba(255, 20, 147, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.2);
             animation: btnPulse 2.5s infinite ease-in-out;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            outline: none;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
         @keyframes btnPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 20, 147, 0.2); }
-            50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(255, 255, 255, 0.4), 0 0 50px rgba(157, 0, 255, 0.5); border-color: rgba(255, 255, 255, 0.8); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.15), 0 0 30px rgba(255, 20, 147, 0.15); }
+            50% { transform: scale(1.04); box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), 0 0 40px rgba(157, 0, 255, 0.35); border-color: rgba(255, 255, 255, 0.7); }
         }
 
-        /* Контейнер для текста */
+        /* Текстовое облако */
         #text-cloud-container {
             display: none;
             position: absolute;
-            width: 70%;
-            max-width: 450px;
-            height: auto;
-            min-height: 180px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            min-height: 140px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             z-index: 5;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: scale(0.85);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         #congrats-title {
-            font-size: 2.8rem; 
+            font-size: 2.3rem; 
             font-weight: 900;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             opacity: 0;
-            transform: scale(0.7); 
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: scale(0.75); 
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .show-wow-text {
             opacity: 1 !important;
             transform: scale(1) !important; 
         }
 
-        /* Блок со стикером посередине */
+        /* Промежуточный стикер */
         #final-simple-text {
             display: none;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #ffffff;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             z-index: 6;
             opacity: 0;
-            text-shadow: 0 0 15px rgba(255,255,255,0.6);
-            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            text-shadow: 0 0 12px rgba(255,255,255,0.5);
+            transition: all 1s ease;
         }
         #final-sticker-wrapper {
             display: none;
             z-index: 6;
             opacity: 0;
-            margin-top: 20px;
-            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            margin-top: 15px;
+            transition: all 1s ease;
         }
         #final-sticker-wrapper img {
-            max-width: 100%;
+            max-width: 140px;
             height: auto;
         }
 
-        /* Альбом */
+        /* Финальная сцена */
         #final-scene-container {
             display: none;
             position: absolute;
@@ -295,40 +275,41 @@
             flex-direction: column;
             align-items: center;
             justify-content: center; 
-            z-index: 8;
+            z-index: 8; /* Книга поверх падающих элементов */
             opacity: 0;
             transition: opacity 1s ease;
-            perspective: 1500px;
+            perspective: 1200px;
+            padding: 10px;
         }
         
-        /* СТИЛЬ ДЛЯ ВЕРХНЕГО ТЕКСТА ПОЖЕЛАНИЙ */
+        /* Блок пожеланий */
         #top-message-box {
             width: 90%;
-            max-width: 400px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 245, 245, 0.95));
-            border-left: 5px solid #d4af37;
-            border-radius: 20px;
-            padding: 16px 24px;
+            max-width: 440px;
+            background: rgba(255, 255, 255, 0.96);
+            border-left: 4px solid #d4af37;
+            border-radius: 15px;
+            padding: 12px 20px;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
-            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateY(-15px);
+            transition: all 0.6s ease;
         }
         #top-message-box p {
             color: #1c1c1e;
-            font-size: 1.02rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            line-height: 1.5;
-            letter-spacing: 0.3px;
+            line-height: 1.4;
         }
         
+        /* Размеры 3D книги оптимизированы под мобильный экран */
         .book {
             position: relative;
-            width: 270px;
-            height: 370px;
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 220px;
+            height: 290px;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             transform-style: preserve-3d;
             cursor: pointer;
         }
@@ -337,7 +318,7 @@
             width: 100%; height: 100%; top: 0; left: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s step-end;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s step-end;
         }
         .front, .back {
             position: absolute;
@@ -347,37 +328,36 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 16px;
-            background: #fcfcfc;
-            border: 2px solid #d4af37;
-            box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 20px rgba(212, 175, 55, 0.25), 0 12px 30px rgba(0,0,0,0.45);
-            border-radius: 0 12px 12px 0;
+            padding: 12px;
+            background: #fafafa;
+            border: 1.5px solid #d4af37;
+            box-shadow: inset 2px 0 10px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.35);
+            border-radius: 0 10px 10px 0;
             animation: goldGlowEffect 4s ease-in-out infinite alternate;
         }
         .back {
             transform: rotateY(180deg);
-            border-radius: 12px 0 0 12px;
+            border-radius: 10px 0 0 10px;
         }
         .painting {
-            width: 100%; height: 82%;
+            width: 100%; height: 84%;
             object-fit: contain;
-            background-color: #0f0f11;
-            border: 4px solid #fff;
-            border-radius: 6px;
+            background-color: #0d0d0f;
+            border: 3px solid #fff;
+            border-radius: 4px;
         }
         .caption {
             text-align: center;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #555;
-            margin-top: 6px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .page.flipped {
             transform: rotateY(-180deg);
         }
         .cover {
-            background: linear-gradient(135deg, #2c001e 0%, #12000d 100%) !important;
+            background: linear-gradient(135deg, #24021a 0%, #0d0009 100%) !important;
             color: #d4af37;
             justify-content: center;
             align-items: center;
@@ -385,64 +365,48 @@
             border-color: #d4af37;
         }
         .cover h1 {
-            font-size: 22px;
-            border: 2px solid #d4af37;
-            padding: 14px;
-            letter-spacing: 2px;
+            font-size: 18px;
+            border: 1.5px solid #d4af37;
+            padding: 10px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            text-shadow: 0 3px 6px rgba(0,0,0,0.6);
         }
         
         .final-page-text {
             background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 2px;
             text-align: center;
-            filter: drop-shadow(0px 2px 8px rgba(255, 167, 81, 0.5));
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .final-page-subtext {
             color: #ffffff;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            opacity: 0.9;
-            letter-spacing: 1px;
+            opacity: 0.85;
             text-align: center;
         }
 
         @keyframes goldGlowEffect {
-            0% { border-color: #d4af37; box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 15px rgba(212, 175, 55, 0.3); }
-            100% { border-color: #ffdf7a; box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 25px rgba(255, 223, 122, 0.5); }
+            0% { border-color: #d4af37; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 10px rgba(212, 175, 55, 0.2); }
+            100% { border-color: #ffdf7a; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 18px rgba(255, 223, 122, 0.35); }
         }
 
-        /* --- ОПТИМИЗАЦИЯ ПОД ГОРИЗОНТАЛЬНЫЙ ЭКРАН СМАРТФОНА --- */
-        @media screen and (max-width: 900px) and (orientation: landscape) {
+        /* Планшеты и горизонтальные экраны */
+        @media screen and (min-width: 600px) and (orientation: landscape) {
             .book {
-                width: 220px;
-                height: 300px;
+                width: 240px;
+                height: 330px;
             }
             #top-message-box {
-                max-width: 500px;
-                margin-bottom: 10px;
-                padding: 8px 16px;
+                max-width: 480px;
+                margin-bottom: 20px;
             }
             #top-message-box p {
-                font-size: 0.9rem;
-                line-height: 1.3;
-            }
-            #text-cloud-container {
-                min-height: 120px;
-                padding: 15px;
-            }
-            #congrats-title {
-                font-size: 2.0rem;
-            }
-            #final-simple-text {
-                font-size: 1.5rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -459,7 +423,6 @@
     <audio id="bgAudio" src="bg-music.mp3" loop></audio>
 
     <div id="sky-bg"></div>
-    <div id="main-bg-gradient"></div>
     <div id="final-bg-stars"></div>
 
     <canvas id="partyCanvas"></canvas>
@@ -475,12 +438,12 @@
                             <stop offset="100%" stop-color="#ff007f" />
                         </linearGradient>
                     </defs>
-                    <circle class="bg-track" cx="75" cy="75" r="70"></circle>
-                    <circle class="progress-fill-circle" id="progress" cx="75" cy="75" r="70"></circle>
+                    <circle class="bg-track" cx="60" cy="60" r="55"></circle>
+                    <circle class="progress-fill-circle" id="progress" cx="60" cy="60" r="55"></circle>
                 </svg>
                 <div class="loader-cake-icon">🎂</div>
             </div>
-            <div class="loader-text" id="loader-status">Загрузка... 0%</div>
+            <div class="loader-text" id="loader-status">Подготовка... 0%</div>
         </div>
 
         <!-- КНОПКА СТАРТА -->
@@ -504,13 +467,12 @@
                 <p id="slide-text">Жансая, с днем рождения! Пусть этот день станет началом твоего самого яркого, вдохновляющего и счастливого года ✨</p>
             </div>
 
-            <!-- Книга расширена до 8 страниц (под 7 картинок + задняя обложка) -->
             <div class="book" id="book">
                 <!-- Страница 1 (Обложка) -->
                 <div class="page" id="p1" style="z-index: 9;">
                     <div class="front cover">
                         <h1>Галерея Моментов</h1>
-                        <p style="margin-top: 15px; font-size: 0.8rem; color: #fff; opacity: 0.7; letter-spacing: 1px;">Нажми, чтобы открыть</p>
+                        <p style="margin-top: 12px; font-size: 0.75rem; color: #fff; opacity: 0.6; letter-spacing: 1px;">Нажми, чтобы открыть</p>
                     </div>
                     <div class="back">
                         <img class="painting" src="img/1.jpeg" alt="Картина 1">
@@ -583,6 +545,7 @@
         let isFinalPhase = false; 
         let isTextPhase = false; 
         let isSakuraPhase = true; 
+        let currentDynamicBg = null; // Переменная для безопасного изменения фона через Canvas
 
         const stickerSources = [
             'img/a45f20c2c66f5f98d08a3dbe8d624a1e.jpg', 
@@ -599,8 +562,9 @@
             fallingStickers.push(img);
         });
 
+        // Тексты сделаны более живыми и праздничными
         const fallingPhrases = [
-            'Жансая ✨', 'С Днем Рождения! 🎉', 'JANSAYA 💫', 'С праздником! 💐', 'С Днем Рождения! 🎂'
+            'Жансая ✨', 'С Днем Рождения! 🎉', 'Улыбайся! 🌸', 'Твой день! 💫', 'Будь счастлива! 💐', 'Самая лучшая 👑', 'Радости! 🎂'
         ];
 
         function resize() {
@@ -610,50 +574,79 @@
         }
         window.addEventListener('resize', resize);
 
+        // Умное отслеживание поворота экрана без сброса логики
+        const warningBlock = document.getElementById('orientation-warning');
+        function checkOrientation() {
+            if (window.innerWidth < window.innerHeight && window.innerWidth < 950) {
+                warningBlock.style.display = 'flex';
+                setTimeout(() => warningBlock.style.opacity = '1', 10);
+            } else {
+                warningBlock.style.opacity = '0';
+                setTimeout(() => { warningBlock.style.display = 'none'; }, 600);
+            }
+        }
+        window.addEventListener('orientationchange', () => setTimeout(checkOrientation, 300));
+        window.addEventListener('resize', checkOrientation);
+
         function initSakura() {
             sakuraPetals = [];
-            for (let i = 0; i < 35; i++) {
+            for (let i = 0; i < 25; i++) {
                 sakuraPetals.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height, 
-                    r: Math.random() * 5 + 5,
-                    d: Math.random() * 20 + 10,
+                    r: Math.random() * 4 + 4,
                     wobble: Math.random() * 2,
                     wobbleSpeed: Math.random() * 0.02 + 0.01,
-                    speedY: Math.random() * 1.2 + 0.8,
-                    speedX: Math.random() * 0.6 - 0.3,
-                    blur: Math.floor(Math.random() * 8) + 4
+                    speedY: Math.random() * 0.8 + 0.6,
+                    speedX: Math.random() * 0.4 - 0.2
                 });
             }
         }
 
         resize();
         initSakura();
+        checkOrientation();
 
         function initStars() {
             backgroundStars = [];
-            for(let i = 0; i < 40; i++) {
+            for(let i = 0; i < 35; i++) {
                 backgroundStars.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 0.5,
+                    size: Math.random() * 1.5 + 0.5,
                     alpha: Math.random(),
-                    speed: Math.random() * 0.02 + 0.005
+                    speed: Math.random() * 0.015 + 0.005
                 });
             }
         }
 
-        let progress = 0;
+        // Честный прелоадер ресурсов для идеальной плавности
+        const assetsToLoad = [
+            'bg-music.mp3',
+            'img/Gemini_Generated_Image_1mafej1mafej1maf.png',
+            'img/happy-birthday.gif',
+            'img/1.jpeg', 'img/2.jpeg', 'img/3.jpeg', 'img/4.jpeg',
+            'img/5.jpeg', 'img/6.jpeg', 'img/7.jpeg', 'img/8.jpeg'
+        ];
+        let loadedCount = 0;
+        const totalAssets = assetsToLoad.length;
+
         const progressCircle = document.getElementById('progress');
         const loaderContainer = document.getElementById('loader-container');
         const handWrapper = document.getElementById('hint-hand-wrapper');
         const loaderStatus = document.getElementById('loader-status');
 
-        const loadInterval = setInterval(() => {
-            progress += Math.floor(Math.random() * 2) + 1;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(loadInterval);
+        function assetLoaded() {
+            loadedCount++;
+            let percent = Math.floor((loadedCount / totalAssets) * 100);
+            if (percent > 100) percent = 100;
+
+            const radius = 55;
+            const circumference = 2 * Math.PI * radius;
+            progressCircle.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+            loaderStatus.textContent = `Загрузка... ${percent}%`;
+
+            if (loadedCount >= totalAssets) {
                 setTimeout(() => {
                     loaderContainer.style.opacity = '0';
                     loaderContainer.style.transform = 'scale(0.9)';
@@ -662,69 +655,80 @@
                         handWrapper.style.display = 'block';
                         setTimeout(() => handWrapper.style.opacity = '1', 50);
                     }, 600);
-                }, 400);
+                }, 500);
             }
-            const radius = 70;
-            const circumference = 2 * Math.PI * radius;
-            progressCircle.style.strokeDashoffset = circumference - (progress / 100) * circumference;
-            loaderStatus.textContent = `Загрузка... ${progress}%`;
-        }, 80);
+        }
+
+        assetsToLoad.forEach(src => {
+            if (src.endsWith('.mp3')) {
+                const audio = new Audio();
+                audio.src = src;
+                audio.preload = 'auto';
+                audio.oncanplaythrough = assetLoaded;
+                audio.onerror = assetLoaded;
+            } else {
+                const img = new Image();
+                img.src = src;
+                img.onload = assetLoaded;
+                img.onerror = assetLoaded;
+            }
+        });
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Если включена смена неонового фона, заливаем Canvas нужным цветом напрямую
+            if (currentDynamicBg) {
+                ctx.fillStyle = currentDynamicBg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
             
             if (isSakuraPhase) {
                 sakuraPetals.forEach(p => {
                     p.y += p.speedY;
-                    p.x += p.speedX + Math.sin(p.wobble) * 0.5;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.3;
                     p.wobble += p.wobbleSpeed;
 
                     ctx.save();
-                    ctx.shadowBlur = p.blur;
-                    ctx.shadowColor = '#ff66b2';
-                    ctx.fillStyle = 'rgba(255, 153, 194, 0.85)';
+                    ctx.fillStyle = 'rgba(255, 165, 200, 0.8)';
                     ctx.beginPath();
-                    ctx.ellipse(p.x, p.y, p.r, p.r / 1.4, Math.PI / 4 + p.wobble, 0, Math.PI * 2);
+                    ctx.ellipse(p.x, p.y, p.r, p.r / 1.5, Math.PI / 4 + p.wobble, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.restore();
 
                     if (p.y > canvas.height) {
-                        p.y = -20;
+                        p.y = -15;
                         p.x = Math.random() * canvas.width;
                     }
                 });
             }
 
             if (isTextPhase) {
-                if (Math.random() < 0.08 && textSceneHearts.length < 20) {
+                if (Math.random() < 0.06 && textSceneHearts.length < 15) {
                     textSceneHearts.push({
                         x: Math.random() * canvas.width,
-                        y: canvas.height + 30,
-                        size: Math.random() * 15 + 15,
-                        speedY: Math.random() * 1.0 + 0.6,
+                        y: canvas.height + 20,
+                        size: Math.random() * 10 + 12,
+                        speedY: Math.random() * 0.8 + 0.5,
                         angle: Math.random() * Math.PI,
-                        opacity: 0.8,
-                        color: ['#00ffff', '#ff007f', '#9d00ff', '#ffff00'][Math.floor(Math.random() * 4)]
+                        color: ['rgba(0,255,255,0.7)', 'rgba(255,0,127,0.7)', 'rgba(157,0,255,0.7)', 'rgba(255,255,0,0.7)'][Math.floor(Math.random() * 4)]
                     });
                 }
                 textSceneHearts.forEach((h, idx) => {
                     h.y -= h.speedY; h.angle += 0.01;
-                    let currentX = h.x + Math.sin(h.angle) * 15;
+                    let currentX = h.x + Math.sin(h.angle) * 10;
                     ctx.save(); 
-                    ctx.globalAlpha = h.opacity; 
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = h.color;
                     ctx.fillStyle = h.color;
                     ctx.beginPath(); ctx.moveTo(currentX, h.y);
                     ctx.bezierCurveTo(currentX - h.size/2, h.y - h.size/2, currentX - h.size, h.y + h.size/3, currentX, h.y + h.size);
                     ctx.bezierCurveTo(currentX + h.size, h.y + h.size/3, currentX + h.size/2, h.y - h.size/2, currentX, h.y);
                     ctx.fill(); ctx.restore();
-                    if (h.y < -40) textSceneHearts.splice(idx, 1);
+                    if (h.y < -30) textSceneHearts.splice(idx, 1);
                 });
             }
 
-            if (launchFireworks && Math.random() < 0.07) {
-                fireworks.push(new Firework(Math.random() * canvas.width * 0.8 + canvas.width * 0.1, Math.random() * canvas.height * 0.35 + canvas.height * 0.1));
+            if (launchFireworks && Math.random() < 0.06) {
+                fireworks.push(new Firework(Math.random() * canvas.width * 0.8 + canvas.width * 0.1, Math.random() * canvas.height * 0.3 + canvas.height * 0.1));
             }
             fireworks.forEach((fw, idx) => { fw.update(); fw.draw(); if (fw.particles.length === 0) fireworks.splice(idx, 1); });
 
@@ -735,23 +739,23 @@
                     ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
                 });
 
-                if (Math.random() < 0.06) { 
-                    const isWord = Math.random() < 0.55; 
+                // Скорость падения и размеры элементов снижены в два раза для мобилок
+                if (Math.random() < 0.04 && finalFallingItems.length < 12) { 
+                    const isWord = Math.random() < 0.6; 
                     let chosenSticker = fallingStickers[Math.floor(Math.random() * fallingStickers.length)];
                     
                     if (isWord || (chosenSticker && chosenSticker.isReady)) {
                         finalFallingItems.push({
-                            x: Math.random() * (canvas.width - 200) + 40,
-                            y: -140,
+                            x: Math.random() * (canvas.width - 140) + 20,
+                            y: -80,
                             type: isWord ? 'word' : 'sticker',
                             content: isWord ? fallingPhrases[Math.floor(Math.random() * fallingPhrases.length)] : chosenSticker,
-                            fontSize: Math.floor(Math.random() * 4) + 24, 
-                            size: Math.floor(Math.random() * 30) + 90, 
-                            speedY: Math.random() * 1.2 + 2.2, 
+                            fontSize: Math.floor(Math.random() * 3) + 14, // Аккуратный мелкий шрифт
+                            size: Math.floor(Math.random() * 15) + 40,   // Компактные стикеры
+                            speedY: Math.random() * 0.5 + 0.9,           // Замедленное в 2 раза падение
                             wobble: Math.random() * 2,
-                            wobbleSpeed: Math.random() * 0.012 + 0.005,
-                            opacity: Math.random() * 0.2 + 0.8,
-                            glowColor: ['rgba(214,175,55,0.5)', 'rgba(255,20,147,0.4)', 'rgba(157,0,255,0.4)'][Math.floor(Math.random() * 3)]
+                            wobbleSpeed: Math.random() * 0.01 + 0.005,
+                            glowColor: ['rgba(214,175,55,0.3)', 'rgba(255,20,147,0.25)', 'rgba(157,0,255,0.25)'][Math.floor(Math.random() * 3)]
                         });
                     }
                 }
@@ -759,43 +763,39 @@
                 finalFallingItems.forEach((item, idx) => {
                     item.y += item.speedY;
                     item.wobble += item.wobbleSpeed;
-                    let currentX = item.x + Math.sin(item.wobble) * 15;
+                    let currentX = item.x + Math.sin(item.wobble) * 10;
 
                     ctx.save();
-                    ctx.globalAlpha = item.opacity;
+                    // Падающий мусор рендерится слегка прозрачным, чтобы не отвлекать от книги
+                    ctx.globalAlpha = 0.65;
                     
                     if (item.type === 'word') {
-                        ctx.font = `700 ${item.fontSize}px sans-serif`;
+                        ctx.font = `600 ${item.fontSize}px sans-serif`;
                         let textWidth = ctx.measureText(item.content).width;
-                        let paddingX = 24; 
-                        let paddingY = 14;
+                        let paddingX = 12; 
+                        let paddingY = 8;
                         let rectW = textWidth + paddingX * 2;
                         let rectH = item.fontSize + paddingY * 2;
 
-                        ctx.shadowBlur = 25;
-                        ctx.shadowColor = item.glowColor;
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
-                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-                        ctx.lineWidth = 1.8;
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                        ctx.lineWidth = 1.2;
                         ctx.beginPath();
-                        ctx.roundRect(currentX, item.y, rectW, rectH, 18);
+                        ctx.roundRect(currentX, item.y, rectW, rectH, 10);
                         ctx.fill();
                         ctx.stroke();
 
                         ctx.fillStyle = '#ffffff';
-                        ctx.shadowBlur = 0; 
-                        ctx.fillText(item.content, currentX + paddingX, item.y + paddingY + item.fontSize - 3);
+                        ctx.fillText(item.content, currentX + paddingX, item.y + paddingY + item.fontSize - 2);
                     } else {
-                        ctx.shadowBlur = 20;
-                        ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
                         ctx.beginPath();
-                        ctx.roundRect(currentX, item.y, item.size, item.size, 20); 
+                        ctx.roundRect(currentX, item.y, item.size, item.size, 10); 
                         ctx.clip();
                         ctx.drawImage(item.content, currentX, item.y, item.size, item.size);
                     }
                     ctx.restore();
 
-                    if (item.y > canvas.height + 160) finalFallingItems.splice(idx, 1);
+                    if (item.y > canvas.height + 100) finalFallingItems.splice(idx, 1);
                 });
             }
 
@@ -805,28 +805,26 @@
         class Firework {
             constructor(x, y) {
                 this.x = x; this.y = y; this.particles = [];
-                const colors = ['#00ffff', '#ff007f', '#9d00ff', '#ffff00', '#00ff00'];
-                for (let i = 0; i < 45; i++) {
+                const colors = ['#00ffff', '#ff007f', '#9d00ff', '#ffff00'];
+                for (let i = 0; i < 30; i++) {
                     const angle = Math.random() * Math.PI * 2; 
-                    const speed = Math.random() * 4.0 + 1.2; 
+                    const speed = Math.random() * 2.5 + 1.0; 
                     this.particles.push({
                         x: x, y: y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                        alpha: 1, decay: Math.random() * 0.01 + 0.007, color: colors[Math.floor(Math.random() * colors.length)]
+                        alpha: 1, decay: Math.random() * 0.015 + 0.01, color: colors[Math.floor(Math.random() * colors.length)]
                     });
                 }
             }
             update() {
                 this.particles.forEach((p, idx) => {
-                    p.x += p.vx; p.y += p.vy; p.vy += 0.015; p.alpha -= p.decay;
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.012; p.alpha -= p.decay;
                     if (p.alpha <= 0) this.particles.splice(idx, 1);
                 });
             }
             draw() {
                 this.particles.forEach(p => {
                     ctx.save(); ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = p.color;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
                 });
             }
         }
@@ -834,14 +832,11 @@
         function startWowEffect() {
             const audio = document.getElementById('bgAudio');
             if (audio) {
-                audio.play().catch(e => console.log("Музыка ждет взаимодействия пользователя:", e));
+                audio.play().catch(e => console.log(e));
             }
 
             handWrapper.style.opacity = '0';
-            setTimeout(() => handWrapper.style.display = 'none', 500);
-
-            const baseBg = document.getElementById('main-bg-gradient');
-            baseBg.style.opacity = '1';
+            setTimeout(() => handWrapper.style.none = 'none', 500);
             
             isSakuraPhase = false; 
             isTextPhase = true; 
@@ -851,61 +846,58 @@
             setTimeout(() => { cloud.style.opacity = '1'; cloud.style.transform = 'scale(1)'; }, 50);
 
             showCongratsWowSteps();
-            setTimeout(() => launchFireworks = true, 400); 
+            setTimeout(() => launchFireworks = true, 300); 
             
             setTimeout(() => {
                 goToFinalPhase();
-            }, 13500); 
+            }, 13000); 
         }
 
+        // Надежная смена цветов через прямую заливку Canvas
         function showCongratsWowSteps() {
             const title = document.getElementById('congrats-title');
-            const baseBg = document.getElementById('main-bg-gradient');
             const cloud = document.getElementById('text-cloud-container');
             
-            baseBg.style.backgroundColor = '#ffb3c6'; 
-            cloud.style.boxShadow = "0 0 30px #ff007f";
+            currentDynamicBg = '#ffb3c6'; 
+            cloud.style.boxShadow = "0 0 20px #ff007f";
             title.textContent = "HAPPY"; 
             title.style.color = "#ffffff"; 
-            title.style.textShadow = "0 0 20px #ff007f, 0 0 40px #ff007f";
+            title.style.textShadow = "0 0 15px #ff007f";
             setTimeout(() => title.classList.add('show-wow-text'), 100);
             
             setTimeout(() => {
                 title.classList.remove('show-wow-text');
                 setTimeout(() => {
-                    baseBg.style.backgroundColor = '#9d00ff'; 
-                    cloud.style.boxShadow = "0 0 30px #ffff00";
+                    currentDynamicBg = '#9d00ff'; 
+                    cloud.style.boxShadow = "0 0 20px #ffff00";
                     title.textContent = "BIRTHDAY"; 
-                    title.style.color = "#ffffff";
-                    title.style.textShadow = "0 0 25px #ffff00, 0 0 40px #9d00ff";
+                    title.style.textShadow = "0 0 15px #ffff00";
                     title.classList.add('show-wow-text');
-                }, 500); 
-            }, 3200);
+                }, 400); 
+            }, 3000);
 
             setTimeout(() => {
                 title.classList.remove('show-wow-text');
                 setTimeout(() => {
-                    baseBg.style.backgroundColor = '#ff007f'; 
-                    cloud.style.boxShadow = "0 0 30px #00ffff";
+                    currentDynamicBg = '#ff007f'; 
+                    cloud.style.boxShadow = "0 0 20px #00ffff";
                     title.textContent = "TO"; 
-                    title.style.color = "#ffffff";
-                    title.style.textShadow = "0 0 20px #00ffff";
+                    title.style.textShadow = "0 0 15px #00ffff";
                     title.classList.add('show-wow-text');
-                }, 500);
-            }, 6400);
+                }, 400);
+            }, 6000);
 
             setTimeout(() => {
                 title.classList.remove('show-wow-text');
                 setTimeout(() => {
-                    baseBg.style.backgroundColor = '#1a0022'; 
-                    cloud.style.boxShadow = "0 0 35px #d4af37";
-                    cloud.style.border = "2px solid #d4af37";
+                    currentDynamicBg = '#160121'; 
+                    cloud.style.boxShadow = "0 0 25px #d4af37";
+                    cloud.style.border = "1.5px solid #d4af37";
                     title.textContent = "JANSAYA!"; 
-                    title.style.color = "#ffffff"; 
-                    title.style.textShadow = "0 0 20px #d4af37, 0 0 40px #ff007f, 0 0 60px #ff007f";
+                    title.style.textShadow = "0 0 15px #d4af37, 0 0 30px #ff007f";
                     title.classList.add('show-wow-text'); 
-                }, 500);
-            }, 9600);
+                }, 400);
+            }, 9000);
         }
 
         function goToFinalPhase() {
@@ -914,7 +906,9 @@
 
             document.getElementById('text-cloud-container').style.display = 'none';
             launchFireworks = false; fireworks = []; isTextPhase = false; textSceneHearts = [];
-            document.getElementById('main-bg-gradient').style.opacity = '0'; 
+            currentDynamicBg = null; // Отключаем динамическую заливку, возвращаем прозрачность Canvas
+            
+            document.getElementById('sky-bg').style.opacity = '0'; 
             document.getElementById('final-bg-stars').style.opacity = '1'; 
 
             const finalText = document.getElementById('final-simple-text');
@@ -925,12 +919,12 @@
                 setTimeout(() => { finalText.style.opacity = '1'; sticker.style.opacity = '1'; }, 50);
                 
                 setTimeout(() => {
-                    finalText.style.transform = 'translateY(-30vh) scale(0.85)';
-                    sticker.style.transform = 'translateY(-26vh) scale(1)'; 
-                    setTimeout(() => { showAlbumScene(); }, 600);
-                }, 4500);
+                    finalText.style.transform = 'translateY(-26vh) scale(0.8)';
+                    sticker.style.transform = 'translateY(-22vh) scale(0.9)'; 
+                    setTimeout(() => { showAlbumScene(); }, 500);
+                }, 3500);
 
-            }, 4500); 
+            }, 2000); 
         }
 
         function showAlbumScene() {
@@ -970,7 +964,8 @@
 
             function updateUI() {
                 if (currentPageIndex > 0) {
-                    book.style.transform = "translateX(135px)";
+                    // Сдвиг книги на мобилках уменьшен, чтобы она ровно стояла по центру разворота
+                    book.style.transform = "translateX(110px)";
                 } else {
                     book.style.transform = "translateX(0px)";
                 }
@@ -989,7 +984,7 @@
                         const pageToFlip = pages[currentPageIndex];
                         pageToFlip.classList.add('flipped');
                         currentPageIndex++;
-                        setTimeout(updateZIndices, 400);
+                        setTimeout(updateZIndices, 300);
                         updateUI();
                     }
                 } 
@@ -998,7 +993,7 @@
                         currentPageIndex--;
                         const pageToUnflip = pages[currentPageIndex];
                         pageToUnflip.classList.remove('flipped');
-                        setTimeout(updateZIndices, 400);
+                        setTimeout(updateZIndices, 300);
                         updateUI();
                     }
                 }
