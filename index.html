@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Специально для Жансаи ✨</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            -webkit-touch-callout: none;               
+            -webkit-user-select: none;                 
+            -khtml-user-select: none;                  
+            -moz-user-select: none;                    
+            -ms-user-select: none;                     
+            user-select: none;                         
+            outline: none; 
+        }
+        body, html { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: #000000; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Подсказка о перевороте экрана */
+        #orientation-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0022 0%, #010003 100%);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .phone-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: rotatePhone 2s infinite ease-in-out;
+        }
+        .warning-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            max-width: 280px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        @keyframes rotatePhone {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Показывать предупреждение только на мобильных в портретной ориентации */
+        @media screen and (max-width: 900px) and (orientation: portrait) {
+            #orientation-warning {
+                display: flex;
+            }
+        }
+
+        /* 1) Ночной фон (Сакура) */
+        #sky-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('img/Gemini_Generated_Image_1mafej1mafej1maf.png'); 
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        /* 2) Фон для текста (Мягкий градиент) */
+        #main-bg-gradient {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #fee1e8 0%, #faaca8 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            pointer-events: none;
+        }
+
+        /* 3) Финальный фон (Альбом) */
+        #final-bg-stars {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0022 0%, #080012 60%, #010003 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 2s ease;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 3;
+            padding: 20px;
+        }
+
+        /* Главный экран загрузки */
+        #loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 182, 193, 0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            padding: 30px 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3), inset 0 0 15px rgba(255,255,255,0.2);
+            z-index: 10;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            width: 280px;
+        }
+        .circular-loader {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .circular-loader svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+        }
+        .circular-loader circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+        }
+        .circular-loader .bg-track {
+            stroke: rgba(255, 255, 255, 0.15);
+        }
+        .circular-loader .progress-fill-circle {
+            stroke: url(#loader-grad);
+            stroke-dasharray: 439.82; 
+            stroke-dashoffset: 439.82;
+            transition: stroke-dashoffset 0.15s linear;
+        }
+        .loader-cake-icon {
+            font-size: 3.5rem;
+            animation: cakePulse 1.2s ease-in-out infinite;
+        }
+        @keyframes cakePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+        .loader-text {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* КНОПКА СТАРТА */
+        #hint-hand-wrapper {
+            display: none;
+            position: absolute;
+            z-index: 15;
+            text-align: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .aesthetic-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 16px 38px;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 32px rgba(255, 20, 147, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            animation: btnPulse 2.5s infinite ease-in-out;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            cursor: pointer;
+        }
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 20, 147, 0.2); }
+            50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(255, 255, 255, 0.4), 0 0 50px rgba(157, 0, 255, 0.5); border-color: rgba(255, 255, 255, 0.8); }
+        }
+
+        /* Контейнер для текста */
+        #text-cloud-container {
+            display: none;
+            position: absolute;
+            width: 70%;
+            max-width: 450px;
+            height: auto;
+            min-height: 180px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            z-index: 5;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #congrats-title {
+            font-size: 2.8rem; 
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0;
+            transform: scale(0.7); 
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .show-wow-text {
+            opacity: 1 !important;
+            transform: scale(1) !important; 
+        }
+
+        /* Блок со стикером посередине */
+        #final-simple-text {
+            display: none;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            z-index: 6;
+            opacity: 0;
+            text-shadow: 0 0 15px rgba(255,255,255,0.6);
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #final-sticker-wrapper {
+            display: none;
+            z-index: 6;
+            opacity: 0;
+            margin-top: 20px;
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #final-sticker-wrapper img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Альбом */
+        #final-scene-container {
+            display: none;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            z-index: 8;
+            opacity: 0;
+            transition: opacity 1s ease;
+            perspective: 1500px;
+        }
+        
+        /* СТИЛЬ ДЛЯ ВЕРХНЕГО ТЕКСТА ПОЖЕЛАНИЙ */
+        #top-message-box {
+            width: 90%;
+            max-width: 400px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 245, 245, 0.95));
+            border-left: 5px solid #d4af37;
+            border-radius: 20px;
+            padding: 16px 24px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #top-message-box p {
+            color: #1c1c1e;
+            font-size: 1.02rem;
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+        
+        .book {
+            position: relative;
+            width: 270px;
+            height: 370px;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .page {
+            position: absolute;
+            width: 100%; height: 100%; top: 0; left: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s step-end;
+        }
+        .front, .back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+            background: #fcfcfc;
+            border: 2px solid #d4af37;
+            box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 20px rgba(212, 175, 55, 0.25), 0 12px 30px rgba(0,0,0,0.45);
+            border-radius: 0 12px 12px 0;
+            animation: goldGlowEffect 4s ease-in-out infinite alternate;
+        }
+        .back {
+            transform: rotateY(180deg);
+            border-radius: 12px 0 0 12px;
+        }
+        .painting {
+            width: 100%; height: 82%;
+            object-fit: contain;
+            background-color: #0f0f11;
+            border: 4px solid #fff;
+            border-radius: 6px;
+        }
+        .caption {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+        .cover {
+            background: linear-gradient(135deg, #2c001e 0%, #12000d 100%) !important;
+            color: #d4af37;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-color: #d4af37;
+        }
+        .cover h1 {
+            font-size: 22px;
+            border: 2px solid #d4af37;
+            padding: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+        }
+        
+        .final-page-text {
+            background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            filter: drop-shadow(0px 2px 8px rgba(255, 167, 81, 0.5));
+            margin-bottom: 12px;
+        }
+        .final-page-subtext {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            opacity: 0.9;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        @keyframes goldGlowEffect {
+            0% { border-color: #d4af37; box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 15px rgba(212, 175, 55, 0.3); }
+            100% { border-color: #ffdf7a; box-shadow: inset 3px 0 12px rgba(0,0,0,0.1), 0 0 25px rgba(255, 223, 122, 0.5); }
+        }
+
+        /* --- ОПТИМИЗАЦИЯ ПОД ГОРИЗОНТАЛЬНЫЙ ЭКРАН СМАРТФОНА --- */
+        @media screen and (max-width: 900px) and (orientation: landscape) {
+            .book {
+                width: 220px;
+                height: 300px;
+            }
+            #top-message-box {
+                max-width: 500px;
+                margin-bottom: 10px;
+                padding: 8px 16px;
+            }
+            #top-message-box p {
+                font-size: 0.9rem;
+                line-height: 1.3;
+            }
+            #text-cloud-container {
+                min-height: 120px;
+                padding: 15px;
+            }
+            #congrats-title {
+                font-size: 2.0rem;
+            }
+            #final-simple-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Подсказка поворота экрана -->
+    <div id="orientation-warning">
+        <div class="phone-icon">🔄📱</div>
+        <div class="warning-text">Пожалуйста, переверните устройство горизонтально для лучшего просмотра ✨</div>
+    </div>
+
+    <!-- Тег для фоновой музыки -->
+    <audio id="bgAudio" src="bg-music.mp3" loop></audio>
+
+    <div id="sky-bg"></div>
+    <div id="main-bg-gradient"></div>
+    <div id="final-bg-stars"></div>
+
+    <canvas id="partyCanvas"></canvas>
+
+    <div class="container" id="main-container">
+        
+        <div id="loader-container">
+            <div class="circular-loader">
+                <svg>
+                    <defs>
+                        <linearGradient id="loader-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#d4af37" />
+                            <stop offset="100%" stop-color="#ff007f" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="bg-track" cx="75" cy="75" r="70"></circle>
+                    <circle class="progress-fill-circle" id="progress" cx="75" cy="75" r="70"></circle>
+                </svg>
+                <div class="loader-cake-icon">🎂</div>
+            </div>
+            <div class="loader-text" id="loader-status">Загрузка... 0%</div>
+        </div>
+
+        <!-- КНОПКА СТАРТА -->
+        <div id="hint-hand-wrapper" onclick="startWowEffect()">
+            <button class="aesthetic-btn">Открыть поздравление</button>
+        </div>
+
+        <!-- Облачный контейнер для текста -->
+        <div id="text-cloud-container">
+            <h1 id="congrats-title"></h1>
+        </div>
+
+        <h1 id="final-simple-text">Специально для тебя!</h1>
+        <div id="final-sticker-wrapper">
+            <img src="img/happy-birthday.gif" alt="Wow Sticker">
+        </div>
+
+        <div id="final-scene-container">
+            <!-- Блок пожеланий -->
+            <div id="top-message-box">
+                <p id="slide-text">Жансая, с днем рождения! Пусть этот день станет началом твоего самого яркого, вдохновляющего и счастливого года ✨</p>
+            </div>
+
+            <!-- Книга расширена до 8 страниц (под 7 картинок + задняя обложка) -->
+            <div class="book" id="book">
+                <!-- Страница 1 (Обложка) -->
+                <div class="page" id="p1" style="z-index: 9;">
+                    <div class="front cover">
+                        <h1>Галерея Моментов</h1>
+                        <p style="margin-top: 15px; font-size: 0.8rem; color: #fff; opacity: 0.7; letter-spacing: 1px;">Нажми, чтобы открыть</p>
+                    </div>
+                    <div class="back">
+                        <img class="painting" src="img/1.jpeg" alt="Картина 1">
+                        <div class="caption">Прекрасные мгновения</div>
+                    </div>
+                </div>
+
+                <!-- Страница 2 -->
+                <div class="page" id="p2" style="z-index: 8;">
+                    <div class="front">
+                        <img class="painting" src="img/6.jpeg" alt="Картина 2">
+                        <div class="caption">Светлая улыбка</div>
+                    </div>
+                    <div class="back">
+                        <img class="painting" src="img/3.jpeg" alt="Картина 3">
+                        <div class="caption">Радость каждого дня</div>
+                    </div>
+                </div>
+
+                <!-- Страница 3 -->
+                <div class="page" id="p3" style="z-index: 7;">
+                    <div class="front">
+                        <img class="painting" src="img/4.jpeg" alt="Картина 4">
+                        <div class="caption">Искренние эмоции</div>
+                    </div>
+                    <div class="back">
+                        <img class="painting" src="img/5.jpeg" alt="Картина 5">
+                        <div class="caption">Чудесные моменты</div>
+                    </div>
+                </div>
+
+                <!-- Страница 4 -->
+                <div class="page" id="p4" style="z-index: 6;">
+                    <div class="front">
+                        <img class="painting" src="img/2.jpeg" alt="Картина 6">
+                        <div class="caption">Память в кадрах</div>
+                    </div>
+                    <div class="back">
+                        <img class="painting" src="img/7.jpeg" alt="Картина 7">
+                        <div class="caption">Самые лучшие дни</div>
+                    </div>
+                </div>
+
+                <!-- Страница 5 (Финал) -->
+                <div class="page" id="p5" style="z-index: 5;">
+                    <div class="front">
+                        <img class="painting" src="img/8.jpeg" alt="Картина 8">
+                        <div class="caption">Вдохновение вокруг</div>
+                    </div>
+                    <div class="back cover">
+                        <div class="final-page-text">С праздником! ✨</div>
+                        <div class="final-page-subtext">Самые искренние пожелания</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('partyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let fireworks = [];
+        let textSceneHearts = []; 
+        let backgroundStars = [];
+        let finalFallingItems = []; 
+        let sakuraPetals = []; 
+        
+        let launchFireworks = false;
+        let isFinalPhase = false; 
+        let isTextPhase = false; 
+        let isSakuraPhase = true; 
+
+        const stickerSources = [
+            'img/a45f20c2c66f5f98d08a3dbe8d624a1e.jpg', 
+            'img/e2b5d137845a9f71f288a0ff037d03dd.jpg', 
+            'img/peachcat-and-goma-peachcat.gif', 
+            'img/mochi-mochi-hello-white-mochi-mochi.gif'
+        ];
+
+        const fallingStickers = [];
+        stickerSources.forEach(src => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => { img.isReady = true; };
+            fallingStickers.push(img);
+        });
+
+        const fallingPhrases = [
+            'Жансая ✨', 'С Днем Рождения! 🎉', 'JANSAYA 💫', 'С праздником! 💐', 'С Днем Рождения! 🎂'
+        ];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (isFinalPhase && backgroundStars.length === 0) initStars();
+        }
+        window.addEventListener('resize', resize);
+
+        function initSakura() {
+            sakuraPetals = [];
+            for (let i = 0; i < 35; i++) {
+                sakuraPetals.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height, 
+                    r: Math.random() * 5 + 5,
+                    d: Math.random() * 20 + 10,
+                    wobble: Math.random() * 2,
+                    wobbleSpeed: Math.random() * 0.02 + 0.01,
+                    speedY: Math.random() * 1.2 + 0.8,
+                    speedX: Math.random() * 0.6 - 0.3,
+                    blur: Math.floor(Math.random() * 8) + 4
+                });
+            }
+        }
+
+        resize();
+        initSakura();
+
+        function initStars() {
+            backgroundStars = [];
+            for(let i = 0; i < 40; i++) {
+                backgroundStars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+
+        let progress = 0;
+        const progressCircle = document.getElementById('progress');
+        const loaderContainer = document.getElementById('loader-container');
+        const handWrapper = document.getElementById('hint-hand-wrapper');
+        const loaderStatus = document.getElementById('loader-status');
+
+        const loadInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 2) + 1;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+                setTimeout(() => {
+                    loaderContainer.style.opacity = '0';
+                    loaderContainer.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        loaderContainer.style.display = 'none';
+                        handWrapper.style.display = 'block';
+                        setTimeout(() => handWrapper.style.opacity = '1', 50);
+                    }, 600);
+                }, 400);
+            }
+            const radius = 70;
+            const circumference = 2 * Math.PI * radius;
+            progressCircle.style.strokeDashoffset = circumference - (progress / 100) * circumference;
+            loaderStatus.textContent = `Загрузка... ${progress}%`;
+        }, 80);
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (isSakuraPhase) {
+                sakuraPetals.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.5;
+                    p.wobble += p.wobbleSpeed;
+
+                    ctx.save();
+                    ctx.shadowBlur = p.blur;
+                    ctx.shadowColor = '#ff66b2';
+                    ctx.fillStyle = 'rgba(255, 153, 194, 0.85)';
+                    ctx.beginPath();
+                    ctx.ellipse(p.x, p.y, p.r, p.r / 1.4, Math.PI / 4 + p.wobble, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+            }
+
+            if (isTextPhase) {
+                if (Math.random() < 0.08 && textSceneHearts.length < 20) {
+                    textSceneHearts.push({
+                        x: Math.random() * canvas.width,
+                        y: canvas.height + 30,
+                        size: Math.random() * 15 + 15,
+                        speedY: Math.random() * 1.0 + 0.6,
+                        angle: Math.random() * Math.PI,
+                        opacity: 0.8,
+                        color: ['#00ffff', '#ff007f', '#9d00ff', '#ffff00'][Math.floor(Math.random() * 4)]
+                    });
+                }
+                textSceneHearts.forEach((h, idx) => {
+                    h.y -= h.speedY; h.angle += 0.01;
+                    let currentX = h.x + Math.sin(h.angle) * 15;
+                    ctx.save(); 
+                    ctx.globalAlpha = h.opacity; 
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = h.color;
+                    ctx.fillStyle = h.color;
+                    ctx.beginPath(); ctx.moveTo(currentX, h.y);
+                    ctx.bezierCurveTo(currentX - h.size/2, h.y - h.size/2, currentX - h.size, h.y + h.size/3, currentX, h.y + h.size);
+                    ctx.bezierCurveTo(currentX + h.size, h.y + h.size/3, currentX + h.size/2, h.y - h.size/2, currentX, h.y);
+                    ctx.fill(); ctx.restore();
+                    if (h.y < -40) textSceneHearts.splice(idx, 1);
+                });
+            }
+
+            if (launchFireworks && Math.random() < 0.07) {
+                fireworks.push(new Firework(Math.random() * canvas.width * 0.8 + canvas.width * 0.1, Math.random() * canvas.height * 0.35 + canvas.height * 0.1));
+            }
+            fireworks.forEach((fw, idx) => { fw.update(); fw.draw(); if (fw.particles.length === 0) fireworks.splice(idx, 1); });
+
+            if (isFinalPhase) {
+                backgroundStars.forEach(s => {
+                    s.alpha += s.speed; if(s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+                    ctx.save(); ctx.globalAlpha = Math.max(0, s.alpha); ctx.fillStyle = '#ffffff';
+                    ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                });
+
+                if (Math.random() < 0.06) { 
+                    const isWord = Math.random() < 0.55; 
+                    let chosenSticker = fallingStickers[Math.floor(Math.random() * fallingStickers.length)];
+                    
+                    if (isWord || (chosenSticker && chosenSticker.isReady)) {
+                        finalFallingItems.push({
+                            x: Math.random() * (canvas.width - 200) + 40,
+                            y: -140,
+                            type: isWord ? 'word' : 'sticker',
+                            content: isWord ? fallingPhrases[Math.floor(Math.random() * fallingPhrases.length)] : chosenSticker,
+                            fontSize: Math.floor(Math.random() * 4) + 24, 
+                            size: Math.floor(Math.random() * 30) + 90, 
+                            speedY: Math.random() * 1.2 + 2.2, 
+                            wobble: Math.random() * 2,
+                            wobbleSpeed: Math.random() * 0.012 + 0.005,
+                            opacity: Math.random() * 0.2 + 0.8,
+                            glowColor: ['rgba(214,175,55,0.5)', 'rgba(255,20,147,0.4)', 'rgba(157,0,255,0.4)'][Math.floor(Math.random() * 3)]
+                        });
+                    }
+                }
+
+                finalFallingItems.forEach((item, idx) => {
+                    item.y += item.speedY;
+                    item.wobble += item.wobbleSpeed;
+                    let currentX = item.x + Math.sin(item.wobble) * 15;
+
+                    ctx.save();
+                    ctx.globalAlpha = item.opacity;
+                    
+                    if (item.type === 'word') {
+                        ctx.font = `700 ${item.fontSize}px sans-serif`;
+                        let textWidth = ctx.measureText(item.content).width;
+                        let paddingX = 24; 
+                        let paddingY = 14;
+                        let rectW = textWidth + paddingX * 2;
+                        let rectH = item.fontSize + paddingY * 2;
+
+                        ctx.shadowBlur = 25;
+                        ctx.shadowColor = item.glowColor;
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                        ctx.lineWidth = 1.8;
+                        ctx.beginPath();
+                        ctx.roundRect(currentX, item.y, rectW, rectH, 18);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.fillStyle = '#ffffff';
+                        ctx.shadowBlur = 0; 
+                        ctx.fillText(item.content, currentX + paddingX, item.y + paddingY + item.fontSize - 3);
+                    } else {
+                        ctx.shadowBlur = 20;
+                        ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
+                        ctx.beginPath();
+                        ctx.roundRect(currentX, item.y, item.size, item.size, 20); 
+                        ctx.clip();
+                        ctx.drawImage(item.content, currentX, item.y, item.size, item.size);
+                    }
+                    ctx.restore();
+
+                    if (item.y > canvas.height + 160) finalFallingItems.splice(idx, 1);
+                });
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        class Firework {
+            constructor(x, y) {
+                this.x = x; this.y = y; this.particles = [];
+                const colors = ['#00ffff', '#ff007f', '#9d00ff', '#ffff00', '#00ff00'];
+                for (let i = 0; i < 45; i++) {
+                    const angle = Math.random() * Math.PI * 2; 
+                    const speed = Math.random() * 4.0 + 1.2; 
+                    this.particles.push({
+                        x: x, y: y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+                        alpha: 1, decay: Math.random() * 0.01 + 0.007, color: colors[Math.floor(Math.random() * colors.length)]
+                    });
+                }
+            }
+            update() {
+                this.particles.forEach((p, idx) => {
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.015; p.alpha -= p.decay;
+                    if (p.alpha <= 0) this.particles.splice(idx, 1);
+                });
+            }
+            draw() {
+                this.particles.forEach(p => {
+                    ctx.save(); ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = p.color;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                });
+            }
+        }
+
+        function startWowEffect() {
+            const audio = document.getElementById('bgAudio');
+            if (audio) {
+                audio.play().catch(e => console.log("Музыка ждет взаимодействия пользователя:", e));
+            }
+
+            handWrapper.style.opacity = '0';
+            setTimeout(() => handWrapper.style.display = 'none', 500);
+
+            const baseBg = document.getElementById('main-bg-gradient');
+            baseBg.style.opacity = '1';
+            
+            isSakuraPhase = false; 
+            isTextPhase = true; 
+            
+            const cloud = document.getElementById('text-cloud-container');
+            cloud.style.display = 'flex';
+            setTimeout(() => { cloud.style.opacity = '1'; cloud.style.transform = 'scale(1)'; }, 50);
+
+            showCongratsWowSteps();
+            setTimeout(() => launchFireworks = true, 400); 
+            
+            setTimeout(() => {
+                goToFinalPhase();
+            }, 13500); 
+        }
+
+        function showCongratsWowSteps() {
+            const title = document.getElementById('congrats-title');
+            const baseBg = document.getElementById('main-bg-gradient');
+            const cloud = document.getElementById('text-cloud-container');
+            
+            baseBg.style.backgroundColor = '#ffb3c6'; 
+            cloud.style.boxShadow = "0 0 30px #ff007f";
+            title.textContent = "HAPPY"; 
+            title.style.color = "#ffffff"; 
+            title.style.textShadow = "0 0 20px #ff007f, 0 0 40px #ff007f";
+            setTimeout(() => title.classList.add('show-wow-text'), 100);
+            
+            setTimeout(() => {
+                title.classList.remove('show-wow-text');
+                setTimeout(() => {
+                    baseBg.style.backgroundColor = '#9d00ff'; 
+                    cloud.style.boxShadow = "0 0 30px #ffff00";
+                    title.textContent = "BIRTHDAY"; 
+                    title.style.color = "#ffffff";
+                    title.style.textShadow = "0 0 25px #ffff00, 0 0 40px #9d00ff";
+                    title.classList.add('show-wow-text');
+                }, 500); 
+            }, 3200);
+
+            setTimeout(() => {
+                title.classList.remove('show-wow-text');
+                setTimeout(() => {
+                    baseBg.style.backgroundColor = '#ff007f'; 
+                    cloud.style.boxShadow = "0 0 30px #00ffff";
+                    title.textContent = "TO"; 
+                    title.style.color = "#ffffff";
+                    title.style.textShadow = "0 0 20px #00ffff";
+                    title.classList.add('show-wow-text');
+                }, 500);
+            }, 6400);
+
+            setTimeout(() => {
+                title.classList.remove('show-wow-text');
+                setTimeout(() => {
+                    baseBg.style.backgroundColor = '#1a0022'; 
+                    cloud.style.boxShadow = "0 0 35px #d4af37";
+                    cloud.style.border = "2px solid #d4af37";
+                    title.textContent = "JANSAYA!"; 
+                    title.style.color = "#ffffff"; 
+                    title.style.textShadow = "0 0 20px #d4af37, 0 0 40px #ff007f, 0 0 60px #ff007f";
+                    title.classList.add('show-wow-text'); 
+                }, 500);
+            }, 9600);
+        }
+
+        function goToFinalPhase() {
+            isFinalPhase = true;
+            initStars();
+
+            document.getElementById('text-cloud-container').style.display = 'none';
+            launchFireworks = false; fireworks = []; isTextPhase = false; textSceneHearts = [];
+            document.getElementById('main-bg-gradient').style.opacity = '0'; 
+            document.getElementById('final-bg-stars').style.opacity = '1'; 
+
+            const finalText = document.getElementById('final-simple-text');
+            const sticker = document.getElementById('final-sticker-wrapper');
+            
+            setTimeout(() => {
+                finalText.style.display = 'block'; sticker.style.display = 'block';
+                setTimeout(() => { finalText.style.opacity = '1'; sticker.style.opacity = '1'; }, 50);
+                
+                setTimeout(() => {
+                    finalText.style.transform = 'translateY(-30vh) scale(0.85)';
+                    sticker.style.transform = 'translateY(-26vh) scale(1)'; 
+                    setTimeout(() => { showAlbumScene(); }, 600);
+                }, 4500);
+
+            }, 4500); 
+        }
+
+        function showAlbumScene() {
+            const scene = document.getElementById('final-scene-container');
+            scene.style.display = 'flex';
+            setTimeout(() => { 
+                scene.style.opacity = '1'; 
+                document.getElementById('top-message-box').style.opacity = '1';
+                document.getElementById('top-message-box').style.transform = 'translateY(0)';
+            }, 100);
+            initNewBookLogic();
+        }
+
+        function initNewBookLogic() {
+            const pages = document.querySelectorAll('.page');
+            const book = document.getElementById('book');
+
+            let currentPageIndex = 0; 
+
+            const slideTexts = [
+                "Жансая, с днем рождения! Пусть этот день станет началом твоего самого яркого, вдохновляющего и счастливого года ✨", 
+                "Пусть жизнь будет наполнена абсолютной гармонией, внутренней уверенностью и моментами, от которых искренне замирает сердце 💖", 
+                "Пусть открываются все самые лучшие возможности, а каждый сделанный шаг ведет к исполнению больших и заветных мечтаний 🌸", 
+                "Желаем бесконечного благополучия, тепла искренних людей вокруг и абсолютного счастья в каждой секунде. С праздником! 💐", 
+                "Пусть улыбка никогда не сходит с твоего лица, а каждый новый день приносит яркие эмоции и приятные сюрпризы 🌟" 
+            ];
+
+            function updateZIndices() {
+                pages.forEach((page, index) => {
+                    if (page.classList.contains('flipped')) {
+                        page.style.zIndex = index + 1;
+                    } else {
+                        page.style.zIndex = pages.length - index + 1;
+                    }
+                });
+            }
+
+            function updateUI() {
+                if (currentPageIndex > 0) {
+                    book.style.transform = "translateX(135px)";
+                } else {
+                    book.style.transform = "translateX(0px)";
+                }
+
+                if (slideTexts[currentPageIndex]) {
+                    document.getElementById('slide-text').textContent = slideTexts[currentPageIndex];
+                }
+            }
+
+            book.addEventListener('click', (e) => {
+                const rect = book.getBoundingClientRect();
+                const clickX = e.clientX - rect.left; 
+
+                if (clickX > rect.width / 2) {
+                    if (currentPageIndex < pages.length) {
+                        const pageToFlip = pages[currentPageIndex];
+                        pageToFlip.classList.add('flipped');
+                        currentPageIndex++;
+                        setTimeout(updateZIndices, 400);
+                        updateUI();
+                    }
+                } 
+                else {
+                    if (currentPageIndex > 0) {
+                        currentPageIndex--;
+                        const pageToUnflip = pages[currentPageIndex];
+                        pageToUnflip.classList.remove('flipped');
+                        setTimeout(updateZIndices, 400);
+                        updateUI();
+                    }
+                }
+            });
+
+            updateZIndices();
+            updateUI();
+        }
+
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>
