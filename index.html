@@ -25,7 +25,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Подсказка о перевороте экрана с плавным исчезновением */
+        /* Подсказка о перевороте экрана */
         #orientation-warning {
             display: none;
             position: fixed;
@@ -38,7 +38,7 @@
             color: #ffffff;
             text-align: center;
             padding: 20px;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.4s ease;
         }
         .phone-icon {
             font-size: 3.5rem;
@@ -60,7 +60,6 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* Показывать предупреждение только в портретной ориентации */
         @media screen and (max-width: 950px) and (orientation: portrait) {
             #orientation-warning {
                 display: flex;
@@ -79,7 +78,6 @@
             transition: opacity 1.5s ease;
         }
 
-        /* Мягкая неоновая подсветка за книгой в финале */
         #final-bg-stars {
             position: absolute;
             top: 0; left: 0;
@@ -124,7 +122,7 @@
             border-radius: 25px;
             box-shadow: 0 12px 30px rgba(255, 105, 180, 0.2);
             z-index: 10;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
             width: 250px;
         }
         .circular-loader {
@@ -179,7 +177,7 @@
             text-align: center;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
         }
         .aesthetic-btn {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
@@ -219,9 +217,8 @@
             z-index: 5;
             opacity: 0;
             transform: scale(0.85);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             padding: 20px;
-            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -233,7 +230,7 @@
             letter-spacing: 3px;
             opacity: 0;
             transform: scale(0.75); 
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
         .show-wow-text {
             opacity: 1 !important;
@@ -275,14 +272,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center; 
-            z-index: 8; /* Книга поверх падающих элементов */
+            z-index: 8; 
             opacity: 0;
             transition: opacity 1s ease;
             perspective: 1200px;
             padding: 10px;
         }
         
-        /* Блок пожеланий */
         #top-message-box {
             width: 90%;
             max-width: 440px;
@@ -304,7 +300,6 @@
             line-height: 1.4;
         }
         
-        /* Размеры 3D книги оптимизированы под мобильный экран */
         .book {
             position: relative;
             width: 220px;
@@ -395,7 +390,6 @@
             100% { border-color: #ffdf7a; box-shadow: inset 2px 0 10px rgba(0,0,0,0.05), 0 0 18px rgba(255, 223, 122, 0.35); }
         }
 
-        /* Планшеты и горизонтальные экраны */
         @media screen and (min-width: 600px) and (orientation: landscape) {
             .book {
                 width: 240px;
@@ -413,13 +407,11 @@
 </head>
 <body>
 
-    <!-- Подсказка поворота экрана -->
     <div id="orientation-warning">
         <div class="phone-icon">🔄📱</div>
         <div class="warning-text">Пожалуйста, переверните устройство горизонтально для лучшего просмотра ✨</div>
     </div>
 
-    <!-- Тег для фоновой музыки -->
     <audio id="bgAudio" src="bg-music.mp3" loop></audio>
 
     <div id="sky-bg"></div>
@@ -446,12 +438,10 @@
             <div class="loader-text" id="loader-status">Подготовка... 0%</div>
         </div>
 
-        <!-- КНОПКА СТАРТА -->
         <div id="hint-hand-wrapper" onclick="startWowEffect()">
             <button class="aesthetic-btn">Открыть поздравление</button>
         </div>
 
-        <!-- Облачный контейнер для текста -->
         <div id="text-cloud-container">
             <h1 id="congrats-title"></h1>
         </div>
@@ -462,13 +452,11 @@
         </div>
 
         <div id="final-scene-container">
-            <!-- Блок пожеланий -->
             <div id="top-message-box">
                 <p id="slide-text">Жансая, с днем рождения! Пусть этот день станет началом твоего самого яркого, вдохновляющего и счастливого года ✨</p>
             </div>
 
             <div class="book" id="book">
-                <!-- Страница 1 (Обложка) -->
                 <div class="page" id="p1" style="z-index: 9;">
                     <div class="front cover">
                         <h1>Галерея Моментов</h1>
@@ -480,7 +468,6 @@
                     </div>
                 </div>
 
-                <!-- Страница 2 -->
                 <div class="page" id="p2" style="z-index: 8;">
                     <div class="front">
                         <img class="painting" src="img/6.jpeg" alt="Картина 2">
@@ -492,7 +479,6 @@
                     </div>
                 </div>
 
-                <!-- Страница 3 -->
                 <div class="page" id="p3" style="z-index: 7;">
                     <div class="front">
                         <img class="painting" src="img/4.jpeg" alt="Картина 4">
@@ -504,7 +490,6 @@
                     </div>
                 </div>
 
-                <!-- Страница 4 -->
                 <div class="page" id="p4" style="z-index: 6;">
                     <div class="front">
                         <img class="painting" src="img/2.jpeg" alt="Картина 6">
@@ -516,7 +501,6 @@
                     </div>
                 </div>
 
-                <!-- Страница 5 (Финал) -->
                 <div class="page" id="p5" style="z-index: 5;">
                     <div class="front">
                         <img class="painting" src="img/8.jpeg" alt="Картина 8">
@@ -545,7 +529,8 @@
         let isFinalPhase = false; 
         let isTextPhase = false; 
         let isSakuraPhase = true; 
-        let currentDynamicBg = null; // Переменная для безопасного изменения фона через Canvas
+        let currentDynamicBg = null;
+        let wowEffectStarted = false; // Предохранитель от повторного запуска
 
         const stickerSources = [
             'img/a45f20c2c66f5f98d08a3dbe8d624a1e.jpg', 
@@ -562,7 +547,6 @@
             fallingStickers.push(img);
         });
 
-        // Тексты сделаны более живыми и праздничными
         const fallingPhrases = [
             'Жансая ✨', 'С Днем Рождения! 🎉', 'Улыбайся! 🌸', 'Твой день! 💫', 'Будь счастлива! 💐', 'Самая лучшая 👑', 'Радости! 🎂'
         ];
@@ -574,7 +558,6 @@
         }
         window.addEventListener('resize', resize);
 
-        // Умное отслеживание поворота экрана без сброса логики
         const warningBlock = document.getElementById('orientation-warning');
         function checkOrientation() {
             if (window.innerWidth < window.innerHeight && window.innerWidth < 950) {
@@ -620,7 +603,6 @@
             }
         }
 
-        // Честный прелоадер ресурсов для идеальной плавности
         const assetsToLoad = [
             'bg-music.mp3',
             'img/Gemini_Generated_Image_1mafej1mafej1maf.png',
@@ -654,7 +636,7 @@
                         loaderContainer.style.display = 'none';
                         handWrapper.style.display = 'block';
                         setTimeout(() => handWrapper.style.opacity = '1', 50);
-                    }, 600);
+                    }, 500);
                 }, 500);
             }
         }
@@ -675,7 +657,6 @@
         });
 
         function animate() {
-            // Если включена смена неонового фона, заливаем Canvas нужным цветом напрямую
             if (currentDynamicBg) {
                 ctx.fillStyle = currentDynamicBg;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -739,7 +720,6 @@
                     ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
                 });
 
-                // Скорость падения и размеры элементов снижены в два раза для мобилок
                 if (Math.random() < 0.04 && finalFallingItems.length < 12) { 
                     const isWord = Math.random() < 0.6; 
                     let chosenSticker = fallingStickers[Math.floor(Math.random() * fallingStickers.length)];
@@ -750,12 +730,11 @@
                             y: -80,
                             type: isWord ? 'word' : 'sticker',
                             content: isWord ? fallingPhrases[Math.floor(Math.random() * fallingPhrases.length)] : chosenSticker,
-                            fontSize: Math.floor(Math.random() * 3) + 14, // Аккуратный мелкий шрифт
-                            size: Math.floor(Math.random() * 15) + 40,   // Компактные стикеры
-                            speedY: Math.random() * 0.5 + 0.9,           // Замедленное в 2 раза падение
+                            fontSize: Math.floor(Math.random() * 3) + 14, 
+                            size: Math.floor(Math.random() * 15) + 40,   
+                            speedY: Math.random() * 0.5 + 0.9,           
                             wobble: Math.random() * 2,
-                            wobbleSpeed: Math.random() * 0.01 + 0.005,
-                            glowColor: ['rgba(214,175,55,0.3)', 'rgba(255,20,147,0.25)', 'rgba(157,0,255,0.25)'][Math.floor(Math.random() * 3)]
+                            wobbleSpeed: Math.random() * 0.01 + 0.005
                         });
                     }
                 }
@@ -766,7 +745,6 @@
                     let currentX = item.x + Math.sin(item.wobble) * 10;
 
                     ctx.save();
-                    // Падающий мусор рендерится слегка прозрачным, чтобы не отвлекать от книги
                     ctx.globalAlpha = 0.65;
                     
                     if (item.type === 'word') {
@@ -788,9 +766,6 @@
                         ctx.fillStyle = '#ffffff';
                         ctx.fillText(item.content, currentX + paddingX, item.y + paddingY + item.fontSize - 2);
                     } else {
-                        ctx.beginPath();
-                        ctx.roundRect(currentX, item.y, item.size, item.size, 10); 
-                        ctx.clip();
                         ctx.drawImage(item.content, currentX, item.y, item.size, item.size);
                     }
                     ctx.restore();
@@ -824,19 +799,22 @@
             draw() {
                 this.particles.forEach(p => {
                     ctx.save(); ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fill(); restore();
                 });
             }
         }
 
         function startWowEffect() {
+            if (wowEffectStarted) return; // Если уже нажали, игнорируем повторные клики
+            wowEffectStarted = true;
+
             const audio = document.getElementById('bgAudio');
             if (audio) {
                 audio.play().catch(e => console.log(e));
             }
 
             handWrapper.style.opacity = '0';
-            setTimeout(() => handWrapper.style.none = 'none', 500);
+            setTimeout(() => handWrapper.style.display = 'none', 500);
             
             isSakuraPhase = false; 
             isTextPhase = true; 
@@ -853,7 +831,6 @@
             }, 13000); 
         }
 
-        // Надежная смена цветов через прямую заливку Canvas
         function showCongratsWowSteps() {
             const title = document.getElementById('congrats-title');
             const cloud = document.getElementById('text-cloud-container');
@@ -906,7 +883,7 @@
 
             document.getElementById('text-cloud-container').style.display = 'none';
             launchFireworks = false; fireworks = []; isTextPhase = false; textSceneHearts = [];
-            currentDynamicBg = null; // Отключаем динамическую заливку, возвращаем прозрачность Canvas
+            currentDynamicBg = null; 
             
             document.getElementById('sky-bg').style.opacity = '0'; 
             document.getElementById('final-bg-stars').style.opacity = '1'; 
@@ -964,7 +941,6 @@
 
             function updateUI() {
                 if (currentPageIndex > 0) {
-                    // Сдвиг книги на мобилках уменьшен, чтобы она ровно стояла по центру разворота
                     book.style.transform = "translateX(110px)";
                 } else {
                     book.style.transform = "translateX(0px)";
